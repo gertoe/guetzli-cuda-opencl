@@ -7,6 +7,7 @@
 */
 #include <algorithm>
 #include <stdint.h>
+#include <cmath>
 #include <vector>
 #include "utils.h"
 

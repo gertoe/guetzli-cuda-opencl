@@ -10,6 +10,7 @@
 #include <math.h>
 #include <algorithm>
 #include <vector>
+#include <cmath>
 #include "cl.hpp"
 
 extern MATH_MODE g_mathMode = MODE_CPU;
