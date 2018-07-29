@@ -9,6 +9,9 @@
 #include <cuda.h>
 #include <nvrtc.h>
 
+#include <string>
+#include <cstdlib>
+
 ocu_args_d_t& getOcu(void)
 {
     static bool bInit = false;
@@ -39,11 +42,42 @@ ocu_args_d_t& getOcu(void)
     LogError("CUDA Adapter:%s Ver%d.%d MP %d MaxThread Per MP %d)\r\n", name, cap_major, cap_minor, proc_count, thread_count);
 
     char* ptx = nullptr;
+
+    char* guetzli_prefix_env = getenv("GUETZLI_PREFIX");
+    std::string ptx_path = "";
+
+    if (guetzli_prefix_env)
+    {
+      ptx_path = std::string(guetzli_prefix_env);
+    }
+    else
+    {
+      ptx_path = "/opt/guetzli/clguetzli";
+    }
+
     size_t src_size = 0;
+if (sizeof(void*) == 8)
+{
+}
+else
+{
+}
+
+if (sizeof(void*) == 8)
+    ptx_path += "/clguetzli.cu.ptx64";
+else
+    ptx_path += "/clguetzli.cu.ptx32";
+
+    const char * ptx_file = ptx_path.c_str();
+
+    ReadSourceFromFile(ptx_file, &ptx, &src_size);
+
+    /*
 if (sizeof(void*) == 8)
     ReadSourceFromFile("clguetzli/clguetzli.cu.ptx64", &ptx, &src_size);
 else
     ReadSourceFromFile("clguetzli/clguetzli.cu.ptx32", &ptx, &src_size);
+    */
 
     CUmodule mod;
     CUjit_option jit_options[2];
